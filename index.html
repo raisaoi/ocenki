@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Oceny Kiniusi 🎀</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Trebuchet MS", sans-serif;
+    background: linear-gradient(135deg, #fff0f7, #ffe1ed);
+    color: #713752;
+    padding: 15px;
+}
+
+button {
+    font-family: inherit;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 450px;
+    margin: 50px auto;
+    background: #fffafd;
+    border: 4px solid #f3a4c5;
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 8px 25px rgba(210,100,150,0.18);
+    text-align: center;
+}
+
+.login-box h1 {
+    margin: 0;
+    color: #df6397;
+    font-size: 32px;
+}
+
+.login-box p {
+    color: #ad6686;
+    margin: 8px 0 20px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 13px;
+    margin: 7px 0;
+    border: 2px solid #ffd1e2;
+    border-radius: 13px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+}
+
+.login-box input:focus {
+    border-color: #df6798;
+}
+
+.login-button {
+    width: 100%;
+    border: none;
+    background: #e875a5;
+    color: white;
+    padding: 13px;
+    border-radius: 13px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.login-button:hover {
+    background: #d9588e;
+}
+
+.message {
+    margin-top: 12px;
+    color: #d9588e;
+    font-size: 13px;
+}
+
+#app {
+    display: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    background: #fffafd;
+    border: 4px solid #f3a4c5;
+    border-radius: 28px;
+    padding: 22px;
+    box-shadow: 0 8px 25px rgba(210,100,150,0.18);
+}
+
+.header {
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    color: #df6397;
+    font-size: clamp(28px, 6vw, 42px);
+    letter-spacing: 1px;
+}
+
+.header p {
+    margin: 6px 0 12px;
+    color: #ad6686;
+    font-size: 15px;
+}
+
+.decor {
+    text-align: center;
+    font-size: 21px;
+    margin-bottom: 15px;
+}
+
+.account-bar {
+    background: #fff0f7;
+    border: 2px solid #f3aac8;
+    border-radius: 15px;
+    padding: 10px 13px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.account-info {
+    font-size: 12px;
+    color: #a35a7c;
+}
+
+.account-info b {
+    color: #d9588e;
+}
+
+.account-buttons {
+    display: flex;
+    gap: 7px;
+}
+
+.small-button {
+    border: none;
+    background: #e875a5;
+    color: white;
+    padding: 8px 11px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.small-button:hover {
+    background: #d9588e;
+}
+
+.points-box {
+    background: #fff0f7;
+    border: 2px solid #f3aac8;
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.points {
+    font-size: 27px;
+    font-weight: bold;
+    color: #d9588e;
+}
+
+.progress-background {
+    height: 17px;
+    margin-top: 12px;
+    background: #ffd5e6;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: #e978a8;
+    border-radius: 20px;
+    transition: width 0.3s;
+}
+
+#progressText {
+    margin-top: 7px;
+    font-size: 13px;
+    color: #a35a7c;
+}
+
+.section {
+    background: #fff4f8;
+    border: 2px solid #ffd2e3;
+    border-radius: 20px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.section h2 {
+    margin: 0 0 12px;
+    color: #dc6798;
+    font-size: 21px;
+}
+
+.day {
+    background: white;
+    border: 2px solid #ffd7e6;
+    border-radius: 15px;
+    padding: 11px;
+    margin: 9px 0;
+}
+
+.day-name {
+    color: #d45f91;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.ratings {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+}
+
+.rating {
+    border: 2px solid #ffd1e2;
+    background: #fff9fc;
+    border-radius: 12px;
+    padding: 8px 4px;
+    color: #713752;
+    cursor: pointer;
+    min-height: 68px;
+    transition: 0.2s;
+}
+
+.rating:hover:not(:disabled) {
+    background: #ffedf5;
+    transform: translateY(-2px);
+}
+
+.rating.selected {
+    background: #ffc9df;
+    border-color: #df6798;
+    box-shadow: 0 3px 10px rgba(220,100,150,0.25);
+}
+
+.rating:disabled {
+    cursor: default;
+    opacity: 0.75;
+}
+
+.rating.selected:disabled {
+    opacity: 1;
+}
+
+.rating span {
+    display: block;
+    font-size: 22px;
+}
+
+.rating b {
+    display: block;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.rating small {
+    display: block;
+    margin-top: 2px;
+    color: #a35a7c;
+    font-size: 10px;
+}
+
+.reward {
+    background: white;
+    border: 2px dashed #f1a4c3;
+    border-radius: 15px;
+    padding: 12px;
+    margin: 8px 0;
+    opacity: 0.45;
+    transition: 0.25s;
+    font-size: 14px;
+}
+
+.reward.unlocked {
+    opacity: 1;
+    background: #ffe2ed;
+    border-style: solid;
+    transform: scale(1.01);
+}
+
+.legend {
+    background: #fff0f7;
+    border-radius: 17px;
+    padding: 15px;
+}
+
+.legend h2 {
+    margin-bottom: 8px;
+}
+
+.legend p {
+    margin: 7px 0;
+    font-size: 14px;
+}
+
+.reset {
+    display: block;
+    margin: 18px auto 0;
+    border: none;
+    background: #e875a5;
+    color: white;
+    padding: 10px 19px;
+    border-radius: 13px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.reset:hover {
+    background: #d9588e;
+}
+
+.locked-note {
+    text-align: center;
+    color: #a35a7c;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(100,40,70,0.25);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 400px;
+    background: #fffafd;
+    border: 3px solid #f3a4c5;
+    border-radius: 22px;
+    padding: 22px;
+    text-align: center;
+}
+
+.modal-box h2 {
+    color: #df6397;
+    margin-top: 0;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0;
+    border: 2px solid #ffd1e2;
+    border-radius: 12px;
+    font-family: inherit;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 11px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.confirm {
+    background: #e875a5;
+    color: white;
+}
+
+.cancel {
+    background: #ffe1ed;
+    color: #713752;
+}
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 7px;
+    }
+
+    .container {
+        padding: 15px;
+        border-radius: 22px;
+    }
+
+    .ratings {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rating {
+        min-height: 65px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGOWANIE -->
+
+<div id="login" class="login-box">
+
+    <h1>🎀 OCENKI KINIUSI 🎀</h1>
+
+    <p>zaloguj się, aby wejść ♡</p>
+
+    <input
+        id="email"
+        type="email"
+        placeholder="📧 Email"
+        autocomplete="email"
+    >
+
+    <input
+        id="password"
+        type="password"
+        placeholder="🔑 Hasło"
+        autocomplete="current-password"
+    >
+
+    <button class="login-button" id="loginButton">
+        Zaloguj się ♡
+    </button>
+
+    <div class="message" id="loginMessage"></div>
+
+</div>
+
+
+<!-- APLIKACJA -->
+
+<div id="app">
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🎀 OCENKI KINIUSI 🎀</h1>
+
+        <p>
+            sprawdzane przez Łukasia ♡
+        </p>
+
+    </div>
+
+    <div class="decor">
+        ✦ ♡ 🧸 ♡ ✦
+    </div>
+
+
+    <div class="account-bar">
+
+        <div class="account-info">
+            Zalogowano jako:
+            <b id="currentUser"></b>
+        </div>
+
+        <div class="account-buttons">
+
+            <button class="small-button" id="passwordButton">
+                🔑 Zmień hasło
+            </button>
+
+            <button class="small-button" id="logoutButton">
+                🚪 Wyloguj
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- PUNKTY -->
+
+    <div class="points-box">
+
+        <div class="points">
+            ⭐ <span id="points">0</span> pkt
+        </div>
+
+        <div class="progress-background">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div id="progressText">
+            Do następnej nagrody: 5 pkt
+        </div>
+
+    </div>
+
+
+    <!-- TYDZIEŃ -->
+
+    <div class="section">
+
+        <h2>🌷 Tydzień Kiniusi</h2>
+
+        <p style="font-size:13px;">
+            Łukasio wybiera jedną ocenę po każdym przepytaniu ♡
+        </p>
+
+        <div id="days"></div>
+
+        <div id="lockedNote" class="locked-note"></div>
+
+    </div>
+
+
+    <!-- NAGRODY -->
+
+    <div class="section">
+
+        <h2>🧸 Nagrody Kiniusi</h2>
+
+        <div class="reward" data-required="5">
+            🧸 <b>5 pkt</b> — mała nagroda
+        </div>
+
+        <div class="reward" data-required="10">
+            🧸 <b>10 pkt</b> — średnia nagroda
+        </div>
+
+        <div class="reward" data-required="20">
+            🧸 <b>20 pkt</b> — duża nagroda
+        </div>
+
+        <div class="reward" data-required="28">
+            🧸 <b>28 pkt</b> — GIGAAA NAGRODA
+        </div>
+
+    </div>
+
+
+    <!-- LEGENDA -->
+
+    <div class="legend">
+
+        <h2>🎀 Legenda</h2>
+
+        <p>⭐ <b>Idealnie</b> — 4 pkt</p>
+        <p>🩷 <b>Dobrze</b> — 3 pkt</p>
+        <p>🌸 <b>Średnio</b> — 2 pkt</p>
+        <p>☁️ <b>Do poprawy</b> — 0 pkt</p>
+
+    </div>
+
+
+    <button class="reset" id="resetButton">
+        🔄 Wyzeruj tydzień
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- ZMIANA HASŁA -->
+
+<div class="modal" id="passwordModal">
+
+    <div class="modal-box">
+
+        <h2>🔑 Zmień hasło</h2>
+
+        <input
+            id="newPassword"
+            type="password"
+            placeholder="Nowe hasło"
+            autocomplete="new-password"
+        >
+
+        <input
+            id="newPassword2"
+            type="password"
+            placeholder="Powtórz nowe hasło"
+            autocomplete="new-password"
+        >
+
+        <div class="modal-buttons">
+
+            <button class="cancel" id="cancelPassword">
+                Anuluj
+            </button>
+
+            <button class="confirm" id="savePassword">
+                Zmień hasło
+            </button>
+
+        </div>
+
+        <div class="message" id="passwordMessage"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+    "https://ivklmiavbriztrvdlnbz.supabase.co";
+
+const SUPABASE_KEY　=
+    "sb_publishable_5RpHGXeyeBFe5XNT7OfG4w_JBV3x0Ue";
+
+const { createClient } =
+    supabase;
+
+const db =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* KONFIGURACJA */
+
+const LUKASZ_EMAIL =
+    "ukaszzelinski@gmail.com";
+
+const days = [
+    ["mon", "🌷 Poniedziałek"],
+    ["tue", "🌷 Wtorek"],
+    ["wed", "🌷 Środa"],
+    ["thu", "🌷 Czwartek"],
+    ["fri", "🌷 Piątek"],
+    ["sat", "🌷 Sobota"],
+    ["sun", "🌷 Niedziela"]
+];
+
+const ratings = [
+    ["4", "⭐", "Idealnie", "+4 pkt"],
+    ["3", "🩷", "Dobrze", "+3 pkt"],
+    ["2", "🌸", "Średnio", "+2 pkt"],
+    ["0", "☁️", "Do poprawy", "+0 pkt"]
+];
+
+let currentUser = null;
+let saved = {};
+
+
+/* ELEMENTY */
+
+const loginBox =
+    document.getElementById("login");
+
+const app =
+    document.getElementById("app");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const daysContainer =
+    document.getElementById("days");
+
+const pointsDisplay =
+    document.getElementById("points");
+
+const progress =
+    document.getElementById("progress");
+
+const progressText =
+    document.getElementById("progressText");
+
+const rewards =
+    document.querySelectorAll(".reward");
+
+const currentUserDisplay =
+    document.getElementById("currentUser");
+
+const lockedNote =
+    document.getElementById("lockedNote");
+
+
+/* TWORZENIE DNI */
+
+function createDays() {
+
+    daysContainer.innerHTML = "";
+
+    days.forEach(([day, name]) => {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className = "day";
+
+        wrapper.innerHTML = `
+            <div class="day-name">
+                ${name}
+            </div>
+
+            <div class="ratings">
+                ${ratings.map(r => `
+                    <button
+                        class="rating"
+                        data-day="${day}"
+                        data-points="${r[0]}"
+                    >
+                        <span>${r[1]}</span>
+                        <b>${r[2]}</b>
+                        <small>${r[3]}</small>
+                    </button>
+                `).join("")}
+            </div>
+        `;
+
+        daysContainer.appendChild(wrapper);
+
+    });
+
+}
+
+
+/* POBIERANIE OCEN */
+
+async function loadGrades() {
+
+    const {
+        data,
+        error
+    } = await db
+        .from("ocenki_kiniusi")
+        .select("day, points");
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+    saved = {};
+
+    data.forEach(row => {
+
+        saved[row.day] =
+            String(row.points);
+
+    });
+
+    renderGrades();
+
+}
+
+
+/* RENDER OCEN */
+
+function renderGrades() {
+
+    document
+        .querySelectorAll(".rating")
+        .forEach(button => {
+
+            const day =
+                button.dataset.day;
+
+            const points =
+                button.dataset.points;
+
+            button.classList.toggle(
+                "selected",
+                saved[day] === points
+            );
+
+            button.disabled =
+                !isLukasz();
+
+        });
+
+    update();
+
+}
+
+
+/* CZY TO ŁUKASZ? */
+
+function isLukasz() {
+
+    return currentUser &&
+        currentUser.email.toLowerCase() ===
+        LUKASZ_EMAIL.toLowerCase();
+
+}
+
+
+/* KLIKNIĘCIE OCENY */
+
+daysContainer.addEventListener(
+    "click",
+    async event => {
+
+        const button =
+            event.target.closest(".rating");
+
+        if (!button || !isLukasz()) {
+            return;
+        }
+
+        const day =
+            button.dataset.day;
+
+        const points =
+            Number(button.dataset.points);
+
+
+        button.disabled = true;
+
+
+        const {
+            error
+        } = await db
+            .from("ocenki_kiniusi")
+            .update({
+                points: points
+            })
+            .eq("day", day);
+
+
+        if (error) {
+
+            alert(
+                "Nie udało się zapisać oceny 😭"
+            );
+
+            console.error(error);
+
+        } else {
+
+            saved[day] =
+                String(points);
+
+            renderGrades();
+
+        }
+
+    }
+);
+
+
+/* PUNKTY */
+
+function getPoints() {
+
+    let total = 0;
+
+    Object.values(saved)
+        .forEach(value => {
+
+            total += Number(value);
+
+        });
+
+    return total;
+
+}
+
+
+/* AKTUALIZACJA */
+
+function update() {
+
+    const points =
+        getPoints();
+
+    pointsDisplay.textContent =
+        points;
+
+
+    let nextReward = null;
+
+    rewards.forEach(reward => {
+
+        const required =
+            Number(
+                reward.dataset.required
+            );
+
+
+        if (points >= required) {
+
+            reward.classList.add(
+                "unlocked"
+            );
+
+        } else {
+
+            reward.classList.remove(
+                "unlocked"
+            );
+
+            if (nextReward === null) {
+                nextReward = required;
+            }
+
+        }
+
+    });
+
+
+    if (nextReward !== null) {
+
+        const previousReward =
+            [...rewards]
+            .map(r =>
+                Number(r.dataset.required)
+            )
+            .filter(n => n <= points)
+            .pop() || 0;
+
+
+        const percentage =
+            (
+                (points - previousReward) /
+                (nextReward - previousReward)
+            ) * 100;
+
+
+        progress.style.width =
+            Math.max(
+                0,
+                Math.min(100, percentage)
+            ) + "%";
+
+
+        progressText.textContent =
+            "Do następnej nagrody: " +
+            (nextReward - points) +
+            " pkt";
+
+    } else {
+
+        progress.style.width =
+            "100%";
+
+        progressText.textContent =
+            "🧸 Wszystkie nagrody odblokowane!";
+
+    }
+
+}
+
+
+/* LOGOWANIE */
+
+document
+    .getElementById("loginButton")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const email =
+                document
+                .getElementById("email")
+                .value
+                .trim();
+
+            const password =
+                document
+                .getElementById("password")
+                .value;
+
+
+            loginMessage.textContent =
+                "Logowanie... ♡";
+
+
+            const {
+                data,
+                error
+            } = await db.auth.signInWithPassword({
+                email,
+                password
+            });
+
+
+            if (error) {
+
+                loginMessage.textContent =
+                    "Nieprawidłowy email lub hasło ♡";
+
+                return;
+
+            }
+
+
+            currentUser =
+                data.user;
+
+            showApp();
+
+        }
+    );
+
+
+/* POKAZANIE APLIKACJI */
+
+async function showApp() {
+
+    loginBox.style.display =
+        "none";
+
+    app.style.display =
+        "block";
+
+    currentUserDisplay.textContent =
+        currentUser.email;
+
+
+    if (isLukasz()) {
+
+        lockedNote.textContent =
+            "🧸 Jesteś Łukaszem — możesz wystawiać oceny ♡";
+
+        document
+            .getElementById("resetButton")
+            .style.display =
+            "block";
+
+    } else {
+
+        lockedNote.textContent =
+            "🎀 Tryb podglądu — oceny może zmieniać tylko Łukasz ♡";
+
+        document
+            .getElementById("resetButton")
+            .style.display =
+            "none";
+
+    }
+
+
+    createDays();
+
+    await loadGrades();
+
+}
+
+
+/* SPRAWDZENIE SESJI */
+
+async function checkSession() {
+
+    const {
+        data
+    } = await db.auth.getSession();
+
+    if (data.session) {
+
+        currentUser =
+            data.session.user;
+
+        showApp();
+
+    }
+
+}
+
+
+/* AUTOMATYCZNE ODŚWIEŻANIE */
+
+setInterval(
+    async () => {
+
+        if (
+            currentUser &&
+            app.style.display === "block"
+        ) {
+
+            await loadGrades();
+
+        }
+
+    },
+    2000
+);
+
+
+/* WYLOGOWANIE */
+
+document
+    .getElementById("logoutButton")
+    .addEventListener(
+        "click",
+        async () => {
+
+            await db.auth.signOut();
+
+            currentUser = null;
+
+            app.style.display =
+                "none";
+
+            loginBox.style.display =
+                "block";
+
+            document
+                .getElementById("password")
+                .value = "";
+
+        }
+    );
+
+
+/* ZMIANA HASŁA */
+
+const passwordModal =
+    document.getElementById(
+        "passwordModal"
+    );
+
+document
+    .getElementById("passwordButton")
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById("newPassword")
+                .value = "";
+
+            document
+                .getElementById("newPassword2")
+                .value = "";
+
+            document
+                .getElementById("passwordMessage")
+                .textContent = "";
+
+            passwordModal.style.display =
+                "flex";
+
+        }
+    );
+
+
+document
+    .getElementById("cancelPassword")
+    .addEventListener(
+        "click",
+        () => {
+
+            passwordModal.style.display =
+                "none";
+
+        }
+    );
+
+
+document
+    .getElementById("savePassword")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const password =
+                document
+                .getElementById("newPassword")
+                .value;
+
+            const password2 =
+                document
+                .getElementById("newPassword2")
+                .value;
+
+            const message =
+                document
+                .getElementById("passwordMessage");
+
+
+            if (password.length < 6) {
+
+                message.textContent =
+                    "Hasło musi mieć co najmniej 6 znaków ♡";
+
+                return;
+
+            }
+
+
+            if (password !== password2) {
+
+                message.textContent =
+                    "Hasła nie są takie same ♡";
+
+                return;
+
+            }
+
+
+            const {
+                error
+            } = await db.auth.updateUser({
+                password: password
+            });
+
+
+            if (error) {
+
+                message.textContent =
+                    "Nie udało się zmienić hasła 😭";
+
+                console.error(error);
+
+                return;
+
+            }
+
+
+            message.textContent =
+                "Hasło zostało zmienione! 🎀";
+
+            setTimeout(() => {
+
+                passwordModal.style.display =
+                    "none";
+
+            }, 1200);
+
+        }
+    );
+
+
+/* RESET TYGODNIA */
+
+document
+    .getElementById("resetButton")
+    .addEventListener(
+        "click",
+        async () => {
+
+            if (!isLukasz()) {
+                return;
+            }
+
+
+            const confirmed =
+                confirm(
+                    "Na pewno wyzerować cały tydzień? 🧸"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            const {
+                error
+            } = await db
+                .from("ocenki_kiniusi")
+                .update({
+                    points: 0
+                })
+                .neq("day", "___");
+
+
+            if (error) {
+
+                alert(
+                    "Nie udało się wyzerować tygodnia 😭"
+                );
+
+                console.error(error);
+
+                return;
+
+            }
+
+
+            await loadGrades();
+
+        }
+    );
+
+
+/* START */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
