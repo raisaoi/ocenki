@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Oceny Kiniusi 🎀</title>
+<title>🎀 OCENKI KINIUSI 🎀</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -29,6 +30,10 @@ body {
 button {
     font-family: inherit;
 }
+
+/* =========================
+   LOGOWANIE
+========================= */
 
 .login-box {
     width: 100%;
@@ -90,13 +95,17 @@ button {
     font-size: 13px;
 }
 
+/* =========================
+   APLIKACJA
+========================= */
+
 #app {
     display: none;
 }
 
 .container {
     width: 100%;
-    max-width: 850px;
+    max-width: 900px;
     margin: 0 auto;
     background: #fffafd;
     border: 4px solid #f3a4c5;
@@ -104,6 +113,10 @@ button {
     padding: 22px;
     box-shadow: 0 8px 25px rgba(210,100,150,0.18);
 }
+
+/* =========================
+   HEADER
+========================= */
 
 .header {
     text-align: center;
@@ -127,6 +140,10 @@ button {
     font-size: 21px;
     margin-bottom: 15px;
 }
+
+/* =========================
+   KONTO
+========================= */
 
 .account-bar {
     background: #fff0f7;
@@ -170,6 +187,10 @@ button {
     background: #d9588e;
 }
 
+/* =========================
+   PUNKTY
+========================= */
+
 .points-box {
     background: #fff0f7;
     border: 2px solid #f3aac8;
@@ -179,8 +200,14 @@ button {
     margin-bottom: 18px;
 }
 
+.points-title {
+    color: #a35a7c;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
 .points {
-    font-size: 27px;
+    font-size: 30px;
     font-weight: bold;
     color: #d9588e;
 }
@@ -207,6 +234,10 @@ button {
     color: #a35a7c;
 }
 
+/* =========================
+   SEKCJE
+========================= */
+
 .section {
     background: #fff4f8;
     border: 2px solid #ffd2e3;
@@ -220,6 +251,10 @@ button {
     color: #dc6798;
     font-size: 21px;
 }
+
+/* =========================
+   DNI
+========================= */
 
 .day {
     background: white;
@@ -238,7 +273,7 @@ button {
 
 .ratings {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 7px;
 }
 
@@ -249,7 +284,7 @@ button {
     padding: 8px 4px;
     color: #713752;
     cursor: pointer;
-    min-height: 68px;
+    min-height: 75px;
     transition: 0.2s;
 }
 
@@ -291,6 +326,10 @@ button {
     font-size: 10px;
 }
 
+/* =========================
+   NAGRODY
+========================= */
+
 .reward {
     background: white;
     border: 2px dashed #f1a4c3;
@@ -300,6 +339,12 @@ button {
     opacity: 0.45;
     transition: 0.25s;
     font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .reward.unlocked {
@@ -308,6 +353,30 @@ button {
     border-style: solid;
     transform: scale(1.01);
 }
+
+.spend-button {
+    display: none;
+    border: none;
+    background: #e875a5;
+    color: white;
+    padding: 7px 11px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.spend-button:hover:not(:disabled) {
+    background: #d9588e;
+}
+
+.spend-button:disabled {
+    background: #c9aab8;
+    cursor: not-allowed;
+}
+
+/* =========================
+   LEGENDA
+========================= */
 
 .legend {
     background: #fff0f7;
@@ -324,8 +393,12 @@ button {
     font-size: 14px;
 }
 
+/* =========================
+   RESET
+========================= */
+
 .reset {
-    display: block;
+    display: none;
     margin: 18px auto 0;
     border: none;
     background: #e875a5;
@@ -346,6 +419,10 @@ button {
     font-size: 12px;
     margin-top: 10px;
 }
+
+/* =========================
+   MODAL
+========================= */
 
 .modal {
     display: none;
@@ -407,7 +484,18 @@ button {
     color: #713752;
 }
 
-@media (max-width: 700px) {
+/* =========================
+   TELEFON
+========================= */
+
+@media (max-width: 850px) {
+
+    .ratings {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
 
     body {
         padding: 7px;
@@ -423,15 +511,27 @@ button {
     }
 
     .rating {
-        min-height: 65px;
+        min-height: 68px;
+    }
+
+    .reward {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .spend-button {
+        width: 100%;
     }
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- LOGOWANIE -->
+<!-- =========================
+     LOGOWANIE
+========================= -->
 
 <div id="login" class="login-box">
 
@@ -453,16 +553,24 @@ button {
         autocomplete="current-password"
     >
 
-    <button class="login-button" id="loginButton">
+    <button
+        class="login-button"
+        id="loginButton"
+    >
         Zaloguj się ♡
     </button>
 
-    <div class="message" id="loginMessage"></div>
+    <div
+        class="message"
+        id="loginMessage"
+    ></div>
 
 </div>
 
 
-<!-- APLIKACJA -->
+<!-- =========================
+     APLIKACJA
+========================= -->
 
 <div id="app">
 
@@ -470,7 +578,9 @@ button {
 
     <div class="header">
 
-        <h1>🎀 OCENKI KINIUSI 🎀</h1>
+        <h1>
+            🎀 OCENKI KINIUSI 🎀
+        </h1>
 
         <p>
             sprawdzane przez Łukasia ♡
@@ -478,25 +588,36 @@ button {
 
     </div>
 
+
     <div class="decor">
         ✦ ♡ 🧸 ♡ ✦
     </div>
 
 
+    <!-- KONTO -->
+
     <div class="account-bar">
 
         <div class="account-info">
+
             Zalogowano jako:
             <b id="currentUser"></b>
+
         </div>
 
         <div class="account-buttons">
 
-            <button class="small-button" id="passwordButton">
+            <button
+                class="small-button"
+                id="passwordButton"
+            >
                 🔑 Zmień hasło
             </button>
 
-            <button class="small-button" id="logoutButton">
+            <button
+                class="small-button"
+                id="logoutButton"
+            >
                 🚪 Wyloguj
             </button>
 
@@ -509,12 +630,21 @@ button {
 
     <div class="points-box">
 
+        <div class="points-title">
+            🎀 Zgromadzone punkty
+        </div>
+
         <div class="points">
             ⭐ <span id="points">0</span> pkt
         </div>
 
         <div class="progress-background">
-            <div class="progress" id="progress"></div>
+
+            <div
+                class="progress"
+                id="progress"
+            ></div>
+
         </div>
 
         <div id="progressText">
@@ -524,11 +654,13 @@ button {
     </div>
 
 
-    <!-- TYDZIEŃ -->
+    <!-- OCENY -->
 
     <div class="section">
 
-        <h2>🌷 Tydzień Kiniusi</h2>
+        <h2>
+            🌷 Tydzień Kiniusi
+        </h2>
 
         <p style="font-size:13px;">
             Łukasio wybiera jedną ocenę po każdym przepytaniu ♡
@@ -536,7 +668,10 @@ button {
 
         <div id="days"></div>
 
-        <div id="lockedNote" class="locked-note"></div>
+        <div
+            id="lockedNote"
+            class="locked-note"
+        ></div>
 
     </div>
 
@@ -545,22 +680,84 @@ button {
 
     <div class="section">
 
-        <h2>🧸 Nagrody Kiniusi</h2>
+        <h2>
+            🦢 Nagrody Kiniusi
+        </h2>
 
-        <div class="reward" data-required="5">
-            🧸 <b>5 pkt</b> — mała nagroda
+
+        <div
+            class="reward"
+            data-required="5"
+        >
+
+            <span>
+                🦢 <b>5 pkt</b> — mała nagroda
+            </span>
+
+            <button
+                class="spend-button"
+                data-cost="5"
+            >
+                🦢 Wydano
+            </button>
+
         </div>
 
-        <div class="reward" data-required="10">
-            🧸 <b>10 pkt</b> — średnia nagroda
+
+        <div
+            class="reward"
+            data-required="10"
+        >
+
+            <span>
+                🦢 <b>10 pkt</b> — średnia nagroda
+            </span>
+
+            <button
+                class="spend-button"
+                data-cost="10"
+            >
+                🦢 Wydano
+            </button>
+
         </div>
 
-        <div class="reward" data-required="20">
-            🧸 <b>20 pkt</b> — duża nagroda
+
+        <div
+            class="reward"
+            data-required="20"
+        >
+
+            <span>
+                🦢 <b>20 pkt</b> — duża nagroda
+            </span>
+
+            <button
+                class="spend-button"
+                data-cost="20"
+            >
+                🦢 Wydano
+            </button>
+
         </div>
 
-        <div class="reward" data-required="28">
-            🧸 <b>28 pkt</b> — GIGAAA NAGRODA
+
+        <div
+            class="reward"
+            data-required="28"
+        >
+
+            <span>
+                🦢 <b>28 pkt</b> — GIGAAA NAGRODA
+            </span>
+
+            <button
+                class="spend-button"
+                data-cost="28"
+            >
+                🦢 Wydano
+            </button>
+
         </div>
 
     </div>
@@ -570,17 +767,39 @@ button {
 
     <div class="legend">
 
-        <h2>🎀 Legenda</h2>
+        <h2>
+            🎀 Legenda
+        </h2>
 
-        <p>⭐ <b>Idealnie</b> — 4 pkt</p>
-        <p>🩷 <b>Dobrze</b> — 3 pkt</p>
-        <p>🌸 <b>Średnio</b> — 2 pkt</p>
-        <p>☁️ <b>Do poprawy</b> — 0 pkt</p>
+        <p>
+            ⭐ <b>Idealnie</b> — +4 pkt
+        </p>
+
+        <p>
+            🧁 <b>Bardzo dobrze</b> — +3 pkt
+        </p>
+
+        <p>
+            🩷 <b>Dobrze</b> — +2 pkt
+        </p>
+
+        <p>
+            🌸 <b>Średnio</b> — +1 pkt
+        </p>
+
+        <p>
+            ☁️ <b>Do poprawy</b> — +0 pkt
+        </p>
 
     </div>
 
 
-    <button class="reset" id="resetButton">
+    <!-- RESET TYGODNIA -->
+
+    <button
+        class="reset"
+        id="resetButton"
+    >
         🔄 Wyzeruj tydzień
     </button>
 
@@ -589,13 +808,20 @@ button {
 </div>
 
 
-<!-- ZMIANA HASŁA -->
+<!-- =========================
+     MODAL HASŁA
+========================= -->
 
-<div class="modal" id="passwordModal">
+<div
+    class="modal"
+    id="passwordModal"
+>
 
     <div class="modal-box">
 
-        <h2>🔑 Zmień hasło</h2>
+        <h2>
+            🔑 Zmień hasło
+        </h2>
 
         <input
             id="newPassword"
@@ -613,17 +839,26 @@ button {
 
         <div class="modal-buttons">
 
-            <button class="cancel" id="cancelPassword">
+            <button
+                class="cancel"
+                id="cancelPassword"
+            >
                 Anuluj
             </button>
 
-            <button class="confirm" id="savePassword">
+            <button
+                class="confirm"
+                id="savePassword"
+            >
                 Zmień hasło
             </button>
 
         </div>
 
-        <div class="message" id="passwordMessage"></div>
+        <div
+            class="message"
+            id="passwordMessage"
+        ></div>
 
     </div>
 
@@ -632,49 +867,71 @@ button {
 
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
 const SUPABASE_URL =
     "https://ivklmiavbriztrvdlnbz.supabase.co";
 
-const SUPABASE_KEY　=
+const SUPABASE_KEY =
     "sb_publishable_5RpHGXeyeBFe5XNT7OfG4w_JBV3x0Ue";
 
-const { createClient } =
-    supabase;
-
 const db =
-    createClient(
+    supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
 
 
-/* KONFIGURACJA */
+/* =========================
+   USTAWIENIA
+========================= */
 
 const LUKASZ_EMAIL =
     "ukaszzelinski@gmail.com";
 
+
 const days = [
+
     ["mon", "🌷 Poniedziałek"],
     ["tue", "🌷 Wtorek"],
     ["wed", "🌷 Środa"],
     ["thu", "🌷 Czwartek"],
     ["fri", "🌷 Piątek"],
-    ["sat", "🌷 Sobota"],
-    ["sun", "🌷 Niedziela"]
+
 ];
+
 
 const ratings = [
+
     ["4", "⭐", "Idealnie", "+4 pkt"],
-    ["3", "🩷", "Dobrze", "+3 pkt"],
-    ["2", "🌸", "Średnio", "+2 pkt"],
+
+    ["3", "🧁", "Bardzo dobrze", "+3 pkt"],
+
+    ["2", "🩷", "Dobrze", "+2 pkt"],
+
+    ["1", "🌸", "Średnio", "+1 pkt"],
+
     ["0", "☁️", "Do poprawy", "+0 pkt"]
+
 ];
 
+
+/* =========================
+   ZMIENNE
+========================= */
+
 let currentUser = null;
+
 let saved = {};
 
+let totalPoints = 0;
 
-/* ELEMENTY */
+
+/* =========================
+   ELEMENTY
+========================= */
 
 const loginBox =
     document.getElementById("login");
@@ -706,8 +963,13 @@ const currentUserDisplay =
 const lockedNote =
     document.getElementById("lockedNote");
 
+const resetButton =
+    document.getElementById("resetButton");
 
-/* TWORZENIE DNI */
+
+/* =========================
+   TWORZENIE DNI
+========================= */
 
 function createDays() {
 
@@ -718,26 +980,43 @@ function createDays() {
         const wrapper =
             document.createElement("div");
 
-        wrapper.className = "day";
+        wrapper.className =
+            "day";
 
         wrapper.innerHTML = `
+
             <div class="day-name">
                 ${name}
             </div>
 
             <div class="ratings">
+
                 ${ratings.map(r => `
+
                     <button
                         class="rating"
                         data-day="${day}"
                         data-points="${r[0]}"
                     >
-                        <span>${r[1]}</span>
-                        <b>${r[2]}</b>
-                        <small>${r[3]}</small>
+
+                        <span>
+                            ${r[1]}
+                        </span>
+
+                        <b>
+                            ${r[2]}
+                        </b>
+
+                        <small>
+                            ${r[3]}
+                        </small>
+
                     </button>
+
                 `).join("")}
+
             </div>
+
         `;
 
         daysContainer.appendChild(wrapper);
@@ -747,7 +1026,22 @@ function createDays() {
 }
 
 
-/* POBIERANIE OCEN */
+/* =========================
+   CZY ŁUKASZ?
+========================= */
+
+function isLukasz() {
+
+    return currentUser &&
+        currentUser.email.toLowerCase() ===
+        LUKASZ_EMAIL.toLowerCase();
+
+}
+
+
+/* =========================
+   WCZYTYWANIE OCEN
+========================= */
 
 async function loadGrades() {
 
@@ -760,7 +1054,10 @@ async function loadGrades() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Błąd ładowania ocen:",
+            error
+        );
 
         return;
 
@@ -780,7 +1077,43 @@ async function loadGrades() {
 }
 
 
-/* RENDER OCEN */
+/* =========================
+   WCZYTYWANIE PUNKTÓW
+========================= */
+
+async function loadPoints() {
+
+    const {
+        data,
+        error
+    } = await db
+        .from("punkty_kiniusi")
+        .select("points")
+        .eq("id", 1)
+        .single();
+
+    if (error) {
+
+        console.error(
+            "Błąd ładowania punktów:",
+            error
+        );
+
+        return;
+
+    }
+
+    totalPoints =
+        Number(data.points);
+
+    update();
+
+}
+
+
+/* =========================
+   RENDER OCEN
+========================= */
 
 function renderGrades() {
 
@@ -809,95 +1142,14 @@ function renderGrades() {
 }
 
 
-/* CZY TO ŁUKASZ? */
-
-function isLukasz() {
-
-    return currentUser &&
-        currentUser.email.toLowerCase() ===
-        LUKASZ_EMAIL.toLowerCase();
-
-}
-
-
-/* KLIKNIĘCIE OCENY */
-
-daysContainer.addEventListener(
-    "click",
-    async event => {
-
-        const button =
-            event.target.closest(".rating");
-
-        if (!button || !isLukasz()) {
-            return;
-        }
-
-        const day =
-            button.dataset.day;
-
-        const points =
-            Number(button.dataset.points);
-
-
-        button.disabled = true;
-
-
-        const {
-            error
-        } = await db
-            .from("ocenki_kiniusi")
-            .update({
-                points: points
-            })
-            .eq("day", day);
-
-
-        if (error) {
-
-            alert(
-                "Nie udało się zapisać oceny 😭"
-            );
-
-            console.error(error);
-
-        } else {
-
-            saved[day] =
-                String(points);
-
-            renderGrades();
-
-        }
-
-    }
-);
-
-
-/* PUNKTY */
-
-function getPoints() {
-
-    let total = 0;
-
-    Object.values(saved)
-        .forEach(value => {
-
-            total += Number(value);
-
-        });
-
-    return total;
-
-}
-
-
-/* AKTUALIZACJA */
+/* =========================
+   AKTUALIZACJA WYŚWIETLANIA
+========================= */
 
 function update() {
 
     const points =
-        getPoints();
+        totalPoints;
 
     pointsDisplay.textContent =
         points;
@@ -905,11 +1157,17 @@ function update() {
 
     let nextReward = null;
 
+
     rewards.forEach(reward => {
 
         const required =
             Number(
                 reward.dataset.required
+            );
+
+        const spendButton =
+            reward.querySelector(
+                ".spend-button"
             );
 
 
@@ -925,8 +1183,24 @@ function update() {
                 "unlocked"
             );
 
-            if (nextReward === null) {
-                nextReward = required;
+        }
+
+
+        if (spendButton) {
+
+            if (isLukasz()) {
+
+                spendButton.style.display =
+                    "block";
+
+                spendButton.disabled =
+                    points < required;
+
+            } else {
+
+                spendButton.style.display =
+                    "none";
+
             }
 
         }
@@ -934,34 +1208,67 @@ function update() {
     });
 
 
-    if (nextReward !== null) {
+    /* =========================
+       PASEK POSTĘPU
+    ========================= */
+
+    let nextRewardValue = null;
+
+    rewards.forEach(reward => {
+
+        const required =
+            Number(
+                reward.dataset.required
+            );
+
+        if (
+            points < required &&
+            nextRewardValue === null
+        ) {
+
+            nextRewardValue =
+                required;
+
+        }
+
+    });
+
+
+    if (nextRewardValue !== null) {
 
         const previousReward =
             [...rewards]
-            .map(r =>
-                Number(r.dataset.required)
-            )
-            .filter(n => n <= points)
-            .pop() || 0;
+                .map(reward =>
+                    Number(
+                        reward.dataset.required
+                    )
+                )
+                .filter(value =>
+                    value <= points
+                )
+                .pop() || 0;
 
 
         const percentage =
             (
                 (points - previousReward) /
-                (nextReward - previousReward)
+                (nextRewardValue - previousReward)
             ) * 100;
 
 
         progress.style.width =
             Math.max(
                 0,
-                Math.min(100, percentage)
+                Math.min(
+                    100,
+                    percentage
+                )
             ) + "%";
 
 
         progressText.textContent =
             "Do następnej nagrody: " +
-            (nextReward - points) +
+            (nextRewardValue - points) +
             " pkt";
 
     } else {
@@ -970,14 +1277,272 @@ function update() {
             "100%";
 
         progressText.textContent =
-            "🧸 Wszystkie nagrody odblokowane!";
+            "🦢 Wszystkie nagrody odblokowane!";
 
     }
 
 }
 
 
-/* LOGOWANIE */
+/* =========================
+   ZMIANA OCENY
+========================= */
+
+daysContainer.addEventListener(
+    "click",
+    async event => {
+
+        const button =
+            event.target.closest(
+                ".rating"
+            );
+
+
+        if (
+            !button ||
+            !isLukasz()
+        ) {
+            return;
+        }
+
+
+        const day =
+            button.dataset.day;
+
+
+        const newPoints =
+            Number(
+                button.dataset.points
+            );
+
+
+        const oldPoints =
+            Number(
+                saved[day] || 0
+            );
+
+
+        const difference =
+            newPoints - oldPoints;
+
+
+        if (difference === 0) {
+            return;
+        }
+
+
+        button.disabled = true;
+
+
+        /* Najpierw zapisujemy ocenę */
+
+        const {
+            error: gradeError
+        } = await db
+            .from("ocenki_kiniusi")
+            .update({
+                points: newPoints
+            })
+            .eq("day", day);
+
+
+        if (gradeError) {
+
+            alert(
+                "Nie udało się zapisać oceny 😭"
+            );
+
+            console.error(
+                gradeError
+            );
+
+            renderGrades();
+
+            return;
+
+        }
+
+
+        /* Nowy stan punktów */
+
+        const newTotal =
+            totalPoints + difference;
+
+
+        /* Zabezpieczenie */
+
+        if (newTotal < 0) {
+
+            await db
+                .from("ocenki_kiniusi")
+                .update({
+                    points: oldPoints
+                })
+                .eq("day", day);
+
+            alert(
+                "Nie można mieć ujemnej liczby punktów 😭"
+            );
+
+            await loadGrades();
+
+            return;
+
+        }
+
+
+        /* Aktualizacja kumulacji */
+
+        const {
+            error: pointsError
+        } = await db
+            .from("punkty_kiniusi")
+            .update({
+                points: newTotal
+            })
+            .eq("id", 1);
+
+
+        if (pointsError) {
+
+            console.error(
+                pointsError
+            );
+
+
+            /* Cofnięcie oceny,
+               jeśli punkty nie zapisały się */
+
+            await db
+                .from("ocenki_kiniusi")
+                .update({
+                    points: oldPoints
+                })
+                .eq("day", day);
+
+
+            alert(
+                "Nie udało się zaktualizować punktów 😭"
+            );
+
+            await loadGrades();
+            await loadPoints();
+
+            return;
+
+        }
+
+
+        saved[day] =
+            String(newPoints);
+
+
+        totalPoints =
+            newTotal;
+
+
+        renderGrades();
+
+    }
+);
+
+
+/* =========================
+   WYDAWANIE NAGRÓD
+========================= */
+
+document
+    .querySelectorAll(".spend-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            async () => {
+
+                if (!isLukasz()) {
+                    return;
+                }
+
+
+                const cost =
+                    Number(
+                        button.dataset.cost
+                    );
+
+
+                if (totalPoints < cost) {
+
+                    alert(
+                        "Za mało punktów 🦢"
+                    );
+
+                    return;
+
+                }
+
+
+                const confirmed =
+                    confirm(
+                        "Na pewno oznaczyć tę nagrodę jako wydaną? 🦢💗"
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                button.disabled =
+                    true;
+
+
+                const newTotal =
+                    totalPoints - cost;
+
+
+                const {
+                    error
+                } = await db
+                    .from("punkty_kiniusi")
+                    .update({
+                        points: newTotal
+                    })
+                    .eq("id", 1);
+
+
+                if (error) {
+
+                    console.error(
+                        error
+                    );
+
+                    alert(
+                        "Nie udało się wydać punktów 😭"
+                    );
+
+                    button.disabled =
+                        false;
+
+                    return;
+
+                }
+
+
+                totalPoints =
+                    newTotal;
+
+
+                update();
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   LOGOWANIE
+========================= */
 
 document
     .getElementById("loginButton")
@@ -987,14 +1552,15 @@ document
 
             const email =
                 document
-                .getElementById("email")
-                .value
-                .trim();
+                    .getElementById("email")
+                    .value
+                    .trim();
+
 
             const password =
                 document
-                .getElementById("password")
-                .value;
+                    .getElementById("password")
+                    .value;
 
 
             loginMessage.textContent =
@@ -1004,10 +1570,13 @@ document
             const {
                 data,
                 error
-            } = await db.auth.signInWithPassword({
-                email,
-                password
-            });
+            } = await db.auth
+                .signInWithPassword({
+
+                    email,
+                    password
+
+                });
 
 
             if (error) {
@@ -1023,13 +1592,42 @@ document
             currentUser =
                 data.user;
 
+
             showApp();
 
         }
     );
 
 
-/* POKAZANIE APLIKACJI */
+/* =========================
+   ENTER = LOGOWANIE
+========================= */
+
+document
+    .getElementById("password")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                document
+                    .getElementById(
+                        "loginButton"
+                    )
+                    .click();
+
+            }
+
+        }
+    );
+
+
+/* =========================
+   POKAZANIE APLIKACJI
+========================= */
 
 async function showApp() {
 
@@ -1039,6 +1637,7 @@ async function showApp() {
     app.style.display =
         "block";
 
+
     currentUserDisplay.textContent =
         currentUser.email;
 
@@ -1046,21 +1645,17 @@ async function showApp() {
     if (isLukasz()) {
 
         lockedNote.textContent =
-            "🧸 Jesteś Łukaszem — możesz wystawiać oceny ♡";
+            "🦢 Jesteś Łukasiem, możesz wystawiać oceny i wydawać punkty ♡";
 
-        document
-            .getElementById("resetButton")
-            .style.display =
+        resetButton.style.display =
             "block";
 
     } else {
 
         lockedNote.textContent =
-            "🎀 Tryb podglądu — oceny może zmieniać tylko Łukasz ♡";
+            "🎀 Tryb podglądu Kiniusi, oceny i punkty może zmieniać tylko Łukasio ♡";
 
-        document
-            .getElementById("resetButton")
-            .style.display =
+        resetButton.style.display =
             "none";
 
     }
@@ -1070,10 +1665,14 @@ async function showApp() {
 
     await loadGrades();
 
+    await loadPoints();
+
 }
 
 
-/* SPRAWDZENIE SESJI */
+/* =========================
+   SPRAWDZANIE SESJI
+========================= */
 
 async function checkSession() {
 
@@ -1081,19 +1680,22 @@ async function checkSession() {
         data
     } = await db.auth.getSession();
 
+
     if (data.session) {
 
         currentUser =
             data.session.user;
 
-        showApp();
+        await showApp();
 
     }
 
 }
 
 
-/* AUTOMATYCZNE ODŚWIEŻANIE */
+/* =========================
+   AUTOMATYCZNE ODŚWIEŻANIE
+========================= */
 
 setInterval(
     async () => {
@@ -1105,6 +1707,8 @@ setInterval(
 
             await loadGrades();
 
+            await loadPoints();
+
         }
 
     },
@@ -1112,7 +1716,9 @@ setInterval(
 );
 
 
-/* WYLOGOWANIE */
+/* =========================
+   WYLOGOWANIE
+========================= */
 
 document
     .getElementById("logoutButton")
@@ -1122,28 +1728,45 @@ document
 
             await db.auth.signOut();
 
-            currentUser = null;
+
+            currentUser =
+                null;
+
+
+            totalPoints =
+                0;
+
+
+            saved = {};
+
 
             app.style.display =
                 "none";
 
+
             loginBox.style.display =
                 "block";
 
+
             document
-                .getElementById("password")
+                .getElementById(
+                    "password"
+                )
                 .value = "";
 
         }
     );
 
 
-/* ZMIANA HASŁA */
+/* =========================
+   ZMIANA HASŁA
+========================= */
 
 const passwordModal =
     document.getElementById(
         "passwordModal"
     );
+
 
 document
     .getElementById("passwordButton")
@@ -1152,16 +1775,25 @@ document
         () => {
 
             document
-                .getElementById("newPassword")
+                .getElementById(
+                    "newPassword"
+                )
                 .value = "";
 
-            document
-                .getElementById("newPassword2")
-                .value = "";
 
             document
-                .getElementById("passwordMessage")
+                .getElementById(
+                    "newPassword2"
+                )
+                .value = "";
+
+
+            document
+                .getElementById(
+                    "passwordMessage"
+                )
                 .textContent = "";
+
 
             passwordModal.style.display =
                 "flex";
@@ -1191,20 +1823,29 @@ document
 
             const password =
                 document
-                .getElementById("newPassword")
-                .value;
+                    .getElementById(
+                        "newPassword"
+                    )
+                    .value;
+
 
             const password2 =
                 document
-                .getElementById("newPassword2")
-                .value;
+                    .getElementById(
+                        "newPassword2"
+                    )
+                    .value;
+
 
             const message =
-                document
-                .getElementById("passwordMessage");
+                document.getElementById(
+                    "passwordMessage"
+                );
 
 
-            if (password.length < 6) {
+            if (
+                password.length < 6
+            ) {
 
                 message.textContent =
                     "Hasło musi mieć co najmniej 6 znaków ♡";
@@ -1214,7 +1855,9 @@ document
             }
 
 
-            if (password !== password2) {
+            if (
+                password !== password2
+            ) {
 
                 message.textContent =
                     "Hasła nie są takie same ♡";
@@ -1226,9 +1869,13 @@ document
 
             const {
                 error
-            } = await db.auth.updateUser({
-                password: password
-            });
+            } = await db.auth
+                .updateUser({
+
+                    password:
+                        password
+
+                });
 
 
             if (error) {
@@ -1236,7 +1883,9 @@ document
                 message.textContent =
                     "Nie udało się zmienić hasła 😭";
 
-                console.error(error);
+                console.error(
+                    error
+                );
 
                 return;
 
@@ -1246,71 +1895,84 @@ document
             message.textContent =
                 "Hasło zostało zmienione! 🎀";
 
-            setTimeout(() => {
 
-                passwordModal.style.display =
-                    "none";
+            setTimeout(
+                () => {
 
-            }, 1200);
+                    passwordModal.style.display =
+                        "none";
+
+                },
+                1200
+            );
 
         }
     );
 
 
-/* RESET TYGODNIA */
+/* =========================
+   RESET TYGODNIA
+========================= */
 
-document
-    .getElementById("resetButton")
-    .addEventListener(
-        "click",
-        async () => {
+resetButton.addEventListener(
+    "click",
+    async () => {
 
-            if (!isLukasz()) {
-                return;
-            }
-
-
-            const confirmed =
-                confirm(
-                    "Na pewno wyzerować cały tydzień? 🧸"
-                );
+        if (!isLukasz()) {
+            return;
+        }
 
 
-            if (!confirmed) {
-                return;
-            }
+        const confirmed =
+            confirm(
+                "Na pewno wyzerować cały tydzień? 🧸\n\nZgromadzone punkty NIE zostaną usunięte."
+            );
 
 
-            const {
+        if (!confirmed) {
+            return;
+        }
+
+
+        const {
+            error
+        } = await db
+            .from("ocenki_kiniusi")
+            .update({
+                points: 0
+            })
+            .neq(
+                "day",
+                "___"
+            );
+
+
+        if (error) {
+
+            alert(
+                "Nie udało się wyzerować tygodnia 😭"
+            );
+
+            console.error(
                 error
-            } = await db
-                .from("ocenki_kiniusi")
-                .update({
-                    points: 0
-                })
-                .neq("day", "___");
+            );
 
-
-            if (error) {
-
-                alert(
-                    "Nie udało się wyzerować tygodnia 😭"
-                );
-
-                console.error(error);
-
-                return;
-
-            }
-
-
-            await loadGrades();
+            return;
 
         }
-    );
 
 
-/* START */
+        await loadGrades();
+
+        await loadPoints();
+
+    }
+);
+
+
+/* =========================
+   START
+========================= */
 
 checkSession();
 
